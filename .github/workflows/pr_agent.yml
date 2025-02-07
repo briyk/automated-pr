@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Qodo AI Review
-        uses: qodocoding/pr-agent@latest
+        uses: qodo-ai/pr-agent@develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QODO_API_KEY: ${{ secrets.QODO_API_KEY }}

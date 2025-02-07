@@ -1,4 +1,4 @@
-name: AI PR Review
+name: Qodo AI PR Review
 
 on:
   pull_request:
@@ -17,11 +17,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: AI Code Review
-        uses: reviewdog/action-suggester@v1
+      - name: Qodo AI Review
+        uses: qodo-ai/pr-agent@develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool_name: openai-review
+          config-file: .pr_agent.toml
+          best-practices-file: best_practices.md
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

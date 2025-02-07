@@ -1,4 +1,4 @@
-# PR Agent Configuration for React + TypeScript Project
+# PR Agent Configuration
 
 [pr_agent]
 # General settings
@@ -10,9 +10,14 @@ verbose = true
 custom_bot_name = "Qodo Review Bot"
 custom_bot_icon = "🤖"
 
-# Review settings
 [pr_agent.review]
+# Review settings
 enable = true
+review_comment_prefix = "🤖 PR Review with Bryik:"
+extract_summary = true
+suggest_improvements = true
+check_best_practices = true
+include_code_suggestions = true
 review_file_extensions = [".ts", ".tsx", ".js", ".jsx", ".css", ".scss", "package.json", "vite.config.ts"]
 exclude_patterns = ["dist/*", "node_modules/*", "*.test.*", "*.spec.*"]
 max_files_to_review = 20
@@ -27,7 +32,39 @@ suggestion_mode = "inline"
 enable_review_comment_suggestions = true
 enable_inline_comments = true
 
-# Code suggestions
+[pr_agent.conventions]
+# Naming conventions
+enable = true
+check_conventional_commits = true
+check_branch_name = true
+branch_name_pattern = "^(feature|bugfix|hotfix|release)/.*"
+
+[pr_agent.best_practices]
+# Best practices checks
+enable = true
+check_file_size = true
+max_file_size_kb = 500
+check_test_coverage = true
+minimum_test_coverage = 80
+
+[pr_agent.files]
+# Files to include/exclude from review
+include = ["*.ts", "*.tsx", "*.js", "*.jsx", "*.css", "*.scss"]
+exclude = ["dist/*", "build/*", "node_modules/*"]
+
+[pr_agent.pr_description]
+# PR description requirements
+require_description = true
+minimum_description_length = 50
+require_issue_link = true
+
+[pr_agent.labels]
+# Automatic PR labeling
+enable = true
+size_labels = true
+type_labels = true
+priority_labels = true
+
 [pr_agent.suggest]
 enable = true
 inline_code_comments = true
@@ -37,14 +74,12 @@ max_suggestions_per_file = 10
 suggestion_confidence_threshold = 0.8
 comment_style = "suggestion"
 
-# Improvement suggestions
 [pr_agent.improve]
 enable = true
 publish_suggestions_as_comments = true
 auto_implement_suggestions = true
 max_suggestions = 15
 
-# Description settings
 [pr_agent.describe]
 enable = true
 add_original_user_description = true
@@ -74,34 +109,19 @@ description_template = """
 {risk_assessment}
 """
 
-# Labels settings
-[pr_agent.labels]
-enable = true
-labels = [
-    "typescript",
-    "react",
-    "vite",
-    "frontend",
-    "needs-review"
-]
-
-# Question answering settings
 [pr_agent.answer]
 enable = true
 answer_triggers = ["@qodo", "explain", "how", "what", "why"]
 
-# Similar issues detection
 [pr_agent.similar_issues]
 enable = true
 max_issues_to_check = 10
 
-# Security scanning
 [pr_agent.security]
 enable = true
 scan_dependencies = true
 scan_code = true
 
-# Effort estimation
 [pr_agent.estimate]
 enable = true
 show_estimation_confidence = true

@@ -15,13 +15,16 @@ jobs:
   review:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
+      issues: write
+      checks: write
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Qodo AI Review
         uses: qodo-ai/pr-agent@main
@@ -32,6 +35,9 @@ jobs:
           PR_AGENT_AUTO_APPROVE: "true"
           PR_AGENT_APPLY_SUGGESTIONS: "true"
           PR_AGENT_APPROVE_SAFE_CHANGES: "true"
+          PR_AGENT_ENABLE_CODE_SUGGESTIONS: "true"
+          PR_AGENT_MODEL: "gpt-4"
+          PR_AGENT_VERBOSE: "true"
         with:
           config-file: .pr_agent.toml
           best-practices-file: best_practices.md

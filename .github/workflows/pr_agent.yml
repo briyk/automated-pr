@@ -70,6 +70,24 @@ jobs:
           echo "VITE_OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "VITE_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> .env
 
+      - name: Verify Environment Variables
+        run: |
+          if [ -f .env ]; then
+            echo "✅ .env file exists"
+            if grep -q "VITE_OPENAI_API_KEY" .env && grep -q "VITE_GITHUB_TOKEN" .env; then
+              echo "✅ Environment variables are set in .env"
+              # Print first few characters of keys to verify (safely)
+              echo "OPENAI_API_KEY starts with: $(grep VITE_OPENAI_API_KEY .env | cut -d'=' -f2 | cut -c1-4)..."
+              echo "GITHUB_TOKEN starts with: $(grep VITE_GITHUB_TOKEN .env | cut -d'=' -f2 | cut -c1-4)..."
+            else
+              echo "❌ Environment variables are missing in .env"
+              exit 1
+            fi
+          else
+            echo "❌ .env file not created"
+            exit 1
+          fi
+
       - name: Type Check
         run: npm run type-check || npm run tsc || echo "No type checking configured"
         env:

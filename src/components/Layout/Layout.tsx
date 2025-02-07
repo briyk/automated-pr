@@ -59,7 +59,9 @@ const Layout: React.FC<LayoutProps> = ({
       </Header>
       <Main>{children}</Main>
       <Footer>
-        <p>© {new Date().getFullYear()} Your App Name. All rights reserved.</p>
+        <p style={{ overflowWrap: 'break-word', textOverflow: 'ellipsis' }}>
+          © {new Date().getFullYear()} Your App Name. All rights reserved.
+        </p>
       </Footer>
     </StyledLayout>
   );

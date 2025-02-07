@@ -1,4 +1,4 @@
-name: OpenAI PR Review
+name: AI PR Review
 
 on:
   pull_request:
@@ -17,15 +17,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: OpenAI PR Review
-        uses: openai/pr-agent@latest
-        env:
-          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: AI Code Review
+        uses: reviewdog/action-suggester@v1
         with:
-          github-token: ${{ env.VITE_GITHUB_TOKEN }}
-          openai-api-key: ${{ env.VITE_OPENAI_API_KEY }}
-          review-comment-lgtm: false  # Don't auto-approve
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: openai-review
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

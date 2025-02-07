@@ -1,10 +1,12 @@
-# PR Agent Configuration for React + Vite + TypeScript Project
+# PR Agent Configuration for React + TypeScript Project
 
 [pr_agent]
 # General settings
 language = "typescript"
 framework = "react"
 review_comment_lgtm = false
+model = "gpt-4"
+verbose = true
 
 # Review settings
 [pr_agent.review]
@@ -18,6 +20,32 @@ review_conventions = [
     "Component patterns",
     "Performance considerations"
 ]
+enable_code_suggestions = true
+suggestion_mode = "inline"
+
+# Code suggestions
+[pr_agent.suggest]
+enable = true
+inline_code_comments = true
+auto_approve_suggestions = true
+apply_suggestions = true
+max_suggestions_per_file = 10
+suggestion_confidence_threshold = 0.8
+
+# Improvement suggestions
+[pr_agent.improve]
+enable = true
+publish_suggestions_as_comments = true
+auto_implement_suggestions = true
+max_suggestions = 15
+
+# Inline code review comments
+[pr_agent.inline]
+enable = true
+comment_style = "suggestion"
+suggest_code_improvements = true
+auto_approve_safe_changes = true
+max_comments_per_file = 20
 
 # Description settings
 [pr_agent.describe]
@@ -69,19 +97,6 @@ answer_triggers = ["@qodo", "explain", "how", "what", "why"]
 enable = true
 max_issues_to_check = 10
 
-# Code suggestions
-[pr_agent.suggest]
-enable = true
-inline_code_comments = true
-auto_approve_suggestions = true
-apply_suggestions = true
-
-# Improvement suggestions
-[pr_agent.improve]
-enable = true
-publish_suggestions_as_comments = true
-auto_implement_suggestions = true
-
 # Security scanning
 [pr_agent.security]
 enable = true
@@ -92,10 +107,3 @@ scan_code = true
 [pr_agent.estimate]
 enable = true
 show_estimation_confidence = true
-
-# Inline code review comments
-[pr_agent.inline]
-enable = true
-comment_style = "suggestion"
-suggest_code_improvements = true
-auto_approve_safe_changes = true

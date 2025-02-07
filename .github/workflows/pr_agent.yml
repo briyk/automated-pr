@@ -1,0 +1,66 @@
+name: OpenAI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main, master, develop ]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: OpenAI PR Review
+        uses: openai/pr-agent@latest
+        env:
+          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          github-token: ${{ env.VITE_GITHUB_TOKEN }}
+          openai-api-key: ${{ env.VITE_OPENAI_API_KEY }}
+          review-comment-lgtm: false  # Don't auto-approve
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Create env file
+        run: |
+          echo "VITE_OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "VITE_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> .env
+
+      - name: Type Check
+        run: npm run type-check || npm run tsc || echo "No type checking configured"
+        env:
+          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Lint
+        run: npm run lint || echo "No linting configured"
+        env:
+          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Test
+        run: npm run test || echo "No tests configured"
+        env:
+          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

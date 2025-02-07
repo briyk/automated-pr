@@ -1,10 +1,14 @@
-# PR Agent Configuration for React + Vite + TypeScript Project
+# PR Agent Configuration for React + TypeScript Project
 
 [pr_agent]
 # General settings
 language = "typescript"
 framework = "react"
 review_comment_lgtm = false
+model = "gpt-4"
+verbose = true
+custom_bot_name = "Qodo Review Bot"
+custom_bot_icon = "🤖"
 
 # Review settings
 [pr_agent.review]
@@ -18,27 +22,56 @@ review_conventions = [
     "Component patterns",
     "Performance considerations"
 ]
+enable_code_suggestions = true
+suggestion_mode = "inline"
+enable_review_comment_suggestions = true
+enable_inline_comments = true
+
+# Code suggestions
+[pr_agent.suggest]
+enable = true
+inline_code_comments = true
+auto_approve_suggestions = true
+apply_suggestions = true
+max_suggestions_per_file = 10
+suggestion_confidence_threshold = 0.8
+comment_style = "suggestion"
+
+# Improvement suggestions
+[pr_agent.improve]
+enable = true
+publish_suggestions_as_comments = true
+auto_implement_suggestions = true
+max_suggestions = 15
 
 # Description settings
-[pr_agent.description]
+[pr_agent.describe]
 enable = true
 add_original_user_description = true
+publish_description_as_comment = false
+enable_pr_description = true
 description_template = """
-## Changes Overview
+## 🔄 Changes Overview
 {overview}
 
-## Technical Details
+## 🛠 Technical Details
 {technical_details}
 
-## Testing Done
+## 🧪 Testing Done
 {testing_details}
 
-## Checklist
+## 📝 PR Checklist
 - [ ] TypeScript types are properly defined
 - [ ] Components follow React best practices
 - [ ] Unit tests are included where necessary
 - [ ] Performance implications considered
 - [ ] Documentation updated
+
+## 🔍 Affected Components
+{affected_components}
+
+## 📊 Risk Assessment
+{risk_assessment}
 """
 
 # Labels settings
@@ -51,3 +84,24 @@ labels = [
     "frontend",
     "needs-review"
 ]
+
+# Question answering settings
+[pr_agent.answer]
+enable = true
+answer_triggers = ["@qodo", "explain", "how", "what", "why"]
+
+# Similar issues detection
+[pr_agent.similar_issues]
+enable = true
+max_issues_to_check = 10
+
+# Security scanning
+[pr_agent.security]
+enable = true
+scan_dependencies = true
+scan_code = true
+
+# Effort estimation
+[pr_agent.estimate]
+enable = true
+show_estimation_confidence = true

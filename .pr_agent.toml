@@ -1,0 +1,53 @@
+# PR Agent Configuration for React + Vite + TypeScript Project
+
+[pr_agent]
+# General settings
+language = "typescript"
+framework = "react"
+review_comment_lgtm = false
+
+# Review settings
+[pr_agent.review]
+enable = true
+review_file_extensions = [".ts", ".tsx", ".js", ".jsx", ".css", ".scss", "package.json", "vite.config.ts"]
+exclude_patterns = ["dist/*", "node_modules/*", "*.test.*", "*.spec.*"]
+max_files_to_review = 20
+review_conventions = [
+    "TypeScript best practices",
+    "React hooks rules",
+    "Component patterns",
+    "Performance considerations"
+]
+
+# Description settings
+[pr_agent.description]
+enable = true
+add_original_user_description = true
+description_template = """
+## Changes Overview
+{overview}
+
+## Technical Details
+{technical_details}
+
+## Testing Done
+{testing_details}
+
+## Checklist
+- [ ] TypeScript types are properly defined
+- [ ] Components follow React best practices
+- [ ] Unit tests are included where necessary
+- [ ] Performance implications considered
+- [ ] Documentation updated
+"""
+
+# Labels settings
+[pr_agent.labels]
+enable = true
+labels = [
+    "typescript",
+    "react",
+    "vite",
+    "frontend",
+    "needs-review"
+]

@@ -1,9 +1,15 @@
-name: AI PR Review
+name: Qodo AI PR Review
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [ main, master, develop ]
+    branches: 
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
 
 jobs:
   review:
@@ -17,11 +23,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: AI Code Review
-        uses: reviewdog/action-suggester@v1
+      - name: Qodo AI Review
+        uses: qodo-ai/pr-agent@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Required as Qodo uses OpenAI under the hood
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool_name: openai-review
+          config-file: .pr_agent.toml
+          best-practices-file: best_practices.md
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

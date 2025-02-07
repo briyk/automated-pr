@@ -73,11 +73,14 @@ max_issues_to_check = 10
 [pr_agent.suggest]
 enable = true
 inline_code_comments = true
+auto_approve_suggestions = true
+apply_suggestions = true
 
 # Improvement suggestions
 [pr_agent.improve]
 enable = true
 publish_suggestions_as_comments = true
+auto_implement_suggestions = true
 
 # Security scanning
 [pr_agent.security]
@@ -95,3 +98,4 @@ show_estimation_confidence = true
 enable = true
 comment_style = "suggestion"
 suggest_code_improvements = true
+auto_approve_safe_changes = true

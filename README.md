@@ -1,5 +1,3 @@
-
-
 ## 🤖 PR Review Features
 
 This repository uses Qodo Merge for automated PR reviews. Here's how to use the features:
@@ -59,6 +57,38 @@ The following features run automatically on each PR:
 - 🔍 Code quality suggestions
 - 🛡 Security scanning
 - 📊 Effort estimation
+
+### Automatic Suggestion Acceptance
+
+This repository is configured to automatically handle PR suggestions:
+
+1. **Auto-Approve Safe Changes**
+   - Safe code improvements are automatically approved
+   - Style and formatting suggestions are applied automatically
+   - Non-breaking changes are accepted without manual review
+
+2. **Suggestion Commands**
+   ```bash
+   # Accept all pending suggestions
+   @qodo /accept-all
+   
+   # Accept specific suggestion
+   @qodo /accept 123  # where 123 is the suggestion ID
+   
+   # Implement suggested changes
+   @qodo /implement
+   ```
+
+3. **Safety Measures**
+   - Only non-breaking changes are auto-approved
+   - Security-sensitive changes require manual review
+   - Complex refactoring suggestions need explicit approval
+
+4. **Configuration**
+   The auto-suggestion feature is controlled by:
+   - `.pr_agent.toml` settings
+   - Environment variables in the GitHub workflow
+   - Per-PR override commands
 
 ### Best Practices
 

@@ -28,7 +28,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Required as Qodo uses OpenAI under the hood
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PR_AGENT_AUTO_APPROVE: "true"
+          PR_AGENT_APPLY_SUGGESTIONS: "true"
+          PR_AGENT_APPROVE_SAFE_CHANGES: "true"
         with:
           config-file: .pr_agent.toml
           best-practices-file: best_practices.md

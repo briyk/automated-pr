@@ -24,10 +24,11 @@ jobs:
           fetch-depth: 0
 
       - name: Qodo AI Review
-        uses: qodo-ai/pr-agent@v1
+        uses: qodo-ai/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Required as Qodo uses OpenAI under the hood
         with:
           config-file: .pr_agent.toml
           best-practices-file: best_practices.md

@@ -3,7 +3,13 @@ name: Qodo AI PR Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [ main, master, develop ]
+    branches: 
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
 
 jobs:
   review:
@@ -18,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: Qodo AI Review
-        uses: qodo-ai/pr-agent@develop
+        uses: qodo-ai/pr-agent@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QODO_API_KEY: ${{ secrets.QODO_API_KEY }}

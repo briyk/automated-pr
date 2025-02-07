@@ -7,6 +7,8 @@ framework = "react"
 review_comment_lgtm = false
 model = "gpt-4"
 verbose = true
+custom_bot_name = "Qodo Review Bot"
+custom_bot_icon = "🤖"
 
 # Review settings
 [pr_agent.review]
@@ -22,6 +24,8 @@ review_conventions = [
 ]
 enable_code_suggestions = true
 suggestion_mode = "inline"
+enable_review_comment_suggestions = true
+enable_inline_comments = true
 
 # Code suggestions
 [pr_agent.suggest]
@@ -31,6 +35,7 @@ auto_approve_suggestions = true
 apply_suggestions = true
 max_suggestions_per_file = 10
 suggestion_confidence_threshold = 0.8
+comment_style = "suggestion"
 
 # Improvement suggestions
 [pr_agent.improve]
@@ -39,19 +44,12 @@ publish_suggestions_as_comments = true
 auto_implement_suggestions = true
 max_suggestions = 15
 
-# Inline code review comments
-[pr_agent.inline]
-enable = true
-comment_style = "suggestion"
-suggest_code_improvements = true
-auto_approve_safe_changes = true
-max_comments_per_file = 20
-
 # Description settings
 [pr_agent.describe]
 enable = true
 add_original_user_description = true
 publish_description_as_comment = false
+enable_pr_description = true
 description_template = """
 ## 🔄 Changes Overview
 {overview}

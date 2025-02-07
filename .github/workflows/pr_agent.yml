@@ -6,14 +6,20 @@ on:
     branches: 
       - main
       - develop
-  push:
-    branches:
-      - main
-      - develop
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: write
+  statuses: write
 
 jobs:
   review:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && github.event.issue.pull_request) }}
     permissions:
       contents: write
       pull-requests: write
@@ -25,6 +31,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Qodo AI Review
         uses: qodo-ai/pr-agent@main
@@ -38,6 +45,13 @@ jobs:
           PR_AGENT_ENABLE_CODE_SUGGESTIONS: "true"
           PR_AGENT_MODEL: "gpt-4"
           PR_AGENT_VERBOSE: "true"
+          PR_AGENT_MAX_FILES_TO_REVIEW: "20"
+          PR_AGENT_CUSTOM_BOT_NAME: "Qodo Review Bot"
+          PR_AGENT_CUSTOM_BOT_ICON: "🤖"
+          PR_AGENT_SUGGESTION_MODE: "inline"
+          PR_AGENT_ENABLE_REVIEW_COMMENT_SUGGESTIONS: "true"
+          PR_AGENT_ENABLE_INLINE_COMMENTS: "true"
+          PR_AGENT_ENABLE_PR_DESCRIPTION: "true"
         with:
           config-file: .pr_agent.toml
           best-practices-file: best_practices.md
